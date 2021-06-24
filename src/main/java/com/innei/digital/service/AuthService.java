@@ -76,22 +76,30 @@ public class AuthService {
     }
 
 
-
     public static boolean validJWTToken(String token) {
-        if (token == null) return false;
+        if (token == null || token.isEmpty()) return false;
+        try {
+            var sub = JWT.require(Algorithm.HMAC512(SECRET.getBytes()))
+                    .build()
+                    .verify(token)
+                    .getSubject();
+            return sub != null;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public static String getJWTTokenSubject(String token) {
+        if (token == null || token.isEmpty()) return "";
+
         var sub = JWT.require(Algorithm.HMAC512(SECRET.getBytes()))
                 .build()
                 .verify(token)
                 .getSubject();
-        if (sub != null) return true;
-        else return false;
+
+        return sub;
     }
 
-
 }
 
-
-class LoginResponsePayload extends User {
-    private String token;
-
-}

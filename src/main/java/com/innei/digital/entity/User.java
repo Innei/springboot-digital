@@ -30,7 +30,6 @@ public class User {
     private String username;
 
     /**
-     *
      * @see: https://stackoverflow.com/questions/1281952/what-is-the-easiest-way-to-ignore-a-jpa-field-during-persistence/41850392#41850392
      */
     @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -53,5 +52,8 @@ public class User {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @Transient
     private String token;
+
+
+    private String role;
 
 }
