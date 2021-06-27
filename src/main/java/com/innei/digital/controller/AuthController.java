@@ -56,8 +56,11 @@ public class AuthController {
     @GetMapping(path = "/check_logged")
     public Object check(HttpServletRequest request) {
         var token = request.getHeader("Authorization");
+        if (token == null) {
+            return new OK(false);
+        }
         token = token.replace("bearer ", "");
-        if(token.isEmpty()) {
+        if (token.isEmpty()) {
             return new OK(false);
         }
         var res = AuthService.validJWTToken(token);

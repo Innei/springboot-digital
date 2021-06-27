@@ -26,6 +26,9 @@ public class UserController {
     @GetMapping(path = "/me")
     public Object getMe(HttpServletRequest request) {
         var authorization = request.getHeader("Authorization");
+        if (authorization == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "请先登录");
+        }
         authorization = authorization.replace("bearer ", "");
         var username = AuthService.getJWTTokenSubject(authorization);
         if (username.isEmpty()) {
